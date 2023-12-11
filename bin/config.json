@@ -1,0 +1,18 @@
+{
+  "root": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/data",
+  "port": "8445",
+  "serverUri": "https://localhost:8445",
+  "webid": true,
+  "mount": "/",
+  "configPath": "./config",
+  "configFile": "./config.json",
+  "dbPath": "./.db",
+  "sslKey": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/test/keys/key.pem",
+  "sslCert": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/test/keys/cert.pem",
+  "multiuser": false,
+  "server": {
+    "name": "localhost",
+    "description": "",
+    "logo": ""
+  }
+}
