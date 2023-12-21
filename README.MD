@@ -49,3 +49,4 @@ The following resolution works on MacOS, but can be easily adapted in order to w
 brew install rbenv/tap/openssl@1.0
 ln -sfn /usr/local/Cellar/openssl@1.0/1.0.2t /usr/local/opt/openssl
 ```
+Some other issues can be reported, you can solve them by looking at https://github.com/openwallet-foundation/agent-framework-javascript/blob/main/TROUBLESHOOTING.md
