@@ -1,7 +1,12 @@
 # Solid Decentralized Auth
 
 In this repo, we modify the code of Node Solid Serve (NSS) in order to support SSI for authentication procedure.
-
+## Prerequisite
+We do not face any problem using:
+```
+node v20.10.0
+```
+If you have a different version of node, please switch the version using n. 
 ## Initialization
 Clone the repository and move inside
 ```
