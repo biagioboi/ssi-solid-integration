@@ -1,11 +1,15 @@
-<div class="panel panel-default panel-login-tls">
-  <div class="panel-body">
-    <form method="post" action="/login/ssi">
-      <button type="submit" class="btn btn-lg btn-primary" id="login-ssi">
-        Log in with SSI
-      </button>
-      <img src="{{qrcode}}">
+<form method="post" action="">
 
-    </form>
-  </div>
-</div>
+            <button type="submit" class="btn btn-lg btn-primary" id="login-ssi">
+                Log in with SSI
+            </button>
+            <img src="{{qrcode}}">
+            <input type="hidden" name="response_type" id="response_type" value="code">
+            <input type="hidden" name="display" id="display" value="">
+            <input type="hidden" name="scope" id="scope" value="openid offline_access webid">
+            <input type="hidden" name="client_id" id="client_id" value="4082a84e5384dd4d46378507d964d31f">
+            <input type="hidden" name="redirect_uri" id="redirect_uri" value="https://localhost:8443/">
+            <input type="hidden" name="state" id="state" value="eb94c27be9b34dfa839079bffcb25fb3">
+            <input type="hidden" name="nonce" id="nonce" value="">
+            <input type="hidden" name="request" id="request" value="">
+        </form>
