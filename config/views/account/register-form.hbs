@@ -77,6 +77,8 @@
 
           <button type="submit" class="btn btn-primary" id="register">Register</button>
 
+            <button class="btn btn-primary" id="register-with-ssi">Register with SSI</button>
+
           <input type="hidden" name="returnToUrl" value="{{returnToUrl}}"/>
           {{> auth/auth-hidden-fields}}
 
@@ -95,6 +97,7 @@
             Go to Log in
           </a>
         </p>
+          <img src="{{qr_code}}" />
       </div>
     </div>
   </div>
@@ -103,7 +106,26 @@
 <script src="/common/js/owasp-password-strength-test.js" defer></script>
 <script src="/common/js/text-encoder-lite.min.js" defer></script>
 <script src="/common/js/solid.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $(window).on('load', function() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/accounts/ssi-new',
+            data: {
+                oob_id: "{{oob_id}}",
+            },
+            success: (response) => {
+                console.log(response)
+            }
+        });
+    })
 
+    $("#register-with-ssi").click((e) => {
+        e.preventDefault()
+        console.log("clicked")
+    });
+</script>
 <script>
   var username = document.getElementById('username');
   username.onkeyup = function() {
