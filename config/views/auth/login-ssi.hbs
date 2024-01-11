@@ -13,3 +13,77 @@
             <input type="hidden" name="nonce" id="nonce" value="">
             <input type="hidden" name="request" id="request" value="">
         </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Ottieni l'elemento input hidden
+            const connectionIdInput = document.getElementById('connectionId');
+
+            // Ascolta l'evento di cambio valore dell'input hidden
+            connectionIdInput.addEventListener('change', function () {
+                // Controlla se l'id è settato
+                if (connectionIdInput.value) {
+                    // Chiama la funzione sendAjaxRequest passando l'id come argomento
+                    sendAjaxRequest(connectionIdInput.value);
+                }
+            });
+        });
+
+        function sendAjaxRequest(id) {
+            const requestData = {
+                id: id,
+            };
+
+            // Mostra il messaggio di attesa
+            const messageContainer = document.getElementById('message-container');
+            messageContainer.innerHTML = '<p>Richiesta inviata, in attesa di risposta...</p>';
+
+            const startTime = performance.now(); // Memorizza il tempo di inizio della richiesta
+
+            fetch('/ajax-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        const endTime = performance.now(); // Memorizza il tempo di fine della risposta
+                        const responseTime = endTime - startTime; // Calcola il tempo di risposta
+
+                        // Aggiorna il messaggio in base alla risposta del server
+                        if (data.allowAccess) {
+                            // Se consentito, visualizza "Entraaa" e il tempo di risposta
+                            const updatedMessage = `${data.message} - Tempo di risposta: ${responseTime.toFixed(2)} ms`;
+                            messageContainer.innerHTML = `<p>${updatedMessage}</p>`;
+
+                            // Se è previsto un redirect, mostra un conto alla rovescia
+                            if (data.redirect) {
+                                let countdown = 2; // Tempo di attesa in secondi
+                                const countdownInterval = setInterval(() => {
+                                    messageContainer.innerHTML = `<p>${updatedMessage}</p><p>Redirect tra ${countdown} secondi...</p>`;
+                                    countdown -= 1;
+
+                                    if (countdown < 0) {
+                                        clearInterval(countdownInterval);
+                                        // Fai il redirect alla nuova destinazione
+                                        window.location.href = data.redirect;
+                                    }
+                                }, 1000);
+                            }
+                        } else {
+                            // Se non consentito, visualizza "Non puoi entrare"
+                            messageContainer.innerHTML = `<p>${data.message}</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Errore durante la richiesta AJAX:', error);
+
+                        // Aggiorna il messaggio in caso di errore
+                        messageContainer.innerHTML = '<p>Errore durante la richiesta AJAX</p>';
+                    });
+        }
+    </script>
+
+          <button onclick="sendAjaxRequest()">Invia richiesta AJAX</button>
+    <div id="message-container"></div>
