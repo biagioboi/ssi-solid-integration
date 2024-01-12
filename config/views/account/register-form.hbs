@@ -2,9 +2,10 @@
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-body">
-        <form method="post" action="/api/accounts/new" id="RegisterForm">
-          {{> shared/error}}
 
+          <form id="form-ssi" method="post" action="/api/accounts/ssi-new">
+          {{> shared/error}}
+              <input type="hidden" value="{{oob_id}}" id="oob_id" name="oob_id"/>
           <div class="form-group">
             <label class="control-label" for="username">Username*</label>
             <input type="text" class="form-control" name="username" id="username" placeholder="alice"
@@ -34,6 +35,20 @@
 
 	  </div>
 
+
+            <div class="form-group">
+                <label class="control-label" for="name">Name*</label>
+                <input type="text" class="form-control" name="name" id="name" required value="{{name}}"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="email">Email*</label>
+                <input type="email" class="form-control" name="email" id="email" value="{{email}}"/>
+                <!-- <span class="help-block">Your email will only be used for account recovery</span> -->
+            </div>
+
+            <button class="btn btn-primary"  id="register-with-ssi" style="margin-bottom: 40px;">Register with SSI</button>
+            </form>
           <div class="form-group has-feedback">
             <label class="control-label" for="password">Password*</label>
             <input type="password" class="form-control control-progress{{#if disablePasswordStrengthCheck}} disable-password-strength-check{{/if}}" name="password" id="password" required/>
@@ -52,17 +67,6 @@
           </div>
 
 
-          <div class="form-group">
-            <label class="control-label" for="name">Name*</label>
-            <input type="text" class="form-control" name="name" id="name" required value="{{name}}"/>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label" for="email">Email*</label>
-            <input type="email" class="form-control" name="email" id="email" value="{{email}}"/>
-            <span class="help-block">Your email will only be used for account recovery</span>
-          </div>
-
           {{#if enforceToc}}
             {{#if tocUri}}
               <div class="checkbox">
@@ -77,12 +81,11 @@
 
           <button type="submit" class="btn btn-primary" id="register">Register</button>
 
-            <button class="btn btn-primary" id="register-with-ssi">Register with SSI</button>
 
           <input type="hidden" name="returnToUrl" value="{{returnToUrl}}"/>
           {{> auth/auth-hidden-fields}}
 
-        </form>
+       <!-- </form> -->
       </div>
     </div>
   </div>
@@ -97,7 +100,7 @@
             Go to Log in
           </a>
         </p>
-          <img src="{{qr_code}}" />
+          <img id="imgQrCode" src="{{qr_code}}" style="display: none;" />
       </div>
     </div>
   </div>
@@ -108,24 +111,40 @@
 <script src="/common/js/solid.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
-    $(window).on('load', function() {
+    //$(window).on('load', function() {
+        /*
         $.ajax({
             type: 'POST',
             url: '/api/accounts/ssi-new',
             data: {
                 oob_id: "{{oob_id}}",
-                username: "cicciobello"
+                username: "cicciobello",
+                email: $("#email").val
             },
             success: (response) => {
                 console.log(response)
             }
         });
-    })
+    })*/
 
     $("#register-with-ssi").click((e) => {
-        e.preventDefault()
-        console.log("clicked")
-    });
+        $("#username, #email, #name").prop("readonly", true)
+        $("#imgQrCode").fadeIn();
+        /*
+        $.ajax({
+            type: 'POST',
+            url: '/api/accounts/ssi-new',
+            data: {
+                oob_id: "{{oob_id}}",
+                username: $("#username").val(),
+                email: $("#email").val(),
+                name: $("#name").val()
+            },
+            success: (response) => {
+                console.log(response)
+            }
+        });*/
+    })
 </script>
 <script>
   var username = document.getElementById('username');
@@ -138,11 +157,11 @@
 
   window.addEventListener('DOMContentLoaded', function () {
     var connect = document.getElementById('ConnectExternalWebId')
-    var container = document.getElementById('ExternalWebId')
+    /*var container = document.getElementById('ExternalWebId')
     container.classList.toggle('hidden', !connect.checked)
     connect.addEventListener('change', function () {
       container.classList.toggle('hidden', !connect.checked)
-    })
+    })*/
 
     var form = document.getElementById('RegisterForm')
     var externalWebIdField = document.getElementById('externalWebId')
