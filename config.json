@@ -1,5 +1,5 @@
 {
-  "root": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/data",
+  "root": "/Users/biagioboi/Desktop/unisa/research/solid/ssi-solid-integration/data",
   "port": "8445",
   "serverUri": "https://localhost:8445",
   "webid": true,
@@ -7,10 +7,11 @@
   "configPath": "./config",
   "configFile": "./config.json",
   "dbPath": "./.db",
-  "sslKey": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/test/keys/key.pem",
-  "sslCert": "/Users/biasi/Desktop/UNISA/Research/solid/ssi-solid-integration/test/keys/cert.pem",
+  "sslKey": "/Users/biagioboi/Desktop/unisa/research/solid/ssi-solid-integration/test/keys/key.pem",
+  "sslCert": "/Users/biagioboi/Desktop/unisa/research/solid/ssi-solid-integration/test/keys/cert.pem",
   "multiuser": true,
-  "ledgerUrl": "http://localhost:9000/genesis",
+  "ledgerUrl": "http://test.bcovrin.vonx.io/genesis",
+  "walletEndpoint": "https://0314-193-205-162-26.ngrok-free.app",
   "server": {
     "name": "localhost",
     "description": "",

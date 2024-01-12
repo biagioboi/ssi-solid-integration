@@ -1,75 +1,15 @@
-<form method="post" action="">
+<form method="post" action="/login/ssi">
 
+    <img src="{{qrcode}}">
+    <input type="hidden" name="display" id="display" value="">
+    <input type="hidden" name="scope" id="scope" value="openid offline_access webid">
+    <input type="hidden" name="nonce" id="nonce" value="">
+
+    <input type="hidden" name="username" id="username" value="unisa">
+    <input type="hidden" name="oob_id" id="oob_id" value="{{oobRecord}}">
     <button type="submit" class="btn btn-lg btn-primary" id="login-ssi">
         Log in with SSI
     </button>
-    <img src="{{qrcode}}">
-    <input type="hidden" name="response_type" id="response_type" value="code">
-    <input type="hidden" name="display" id="display" value="">
-    <input type="hidden" name="scope" id="scope" value="openid offline_access webid">
-    <input type="hidden" name="client_id" id="client_id" value="4082a84e5384dd4d46378507d964d31f">
-    <input type="hidden" name="redirect_uri" id="redirect_uri" value="https://localhost:8443/">
-    <input type="hidden" name="state" id="state" value="eb94c27be9b34dfa839079bffcb25fb3">
-    <input type="hidden" name="nonce" id="nonce" value="">
-    <input type="hidden" name="oobR" id="oobR" value="{{oobRecord}}">
-    <!--            <input type="hidden" name="oobR" id="oobR" value="{{status}}">-->
-    <input type="hidden" name="request" id="request" value="">
 </form>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
-<script>
-
-
-    $(window).on('load', function () {
-        const messageContainer = document.getElementById('message-container');
-        messageContainer.innerHTML = '<p>Richiesta inviata, in attesa di risposta...</p>';
-        const startTime = performance.now(); // Memorizza il tempo di inizio della richiesta
-
-        $.ajax({
-            type: 'POST',
-            url: '/ajax-endpoint',
-            data: {
-                test: 'authenticate',
-                id_con: $("#oobR").val()
-            },
-            success: (response) => {
-                console.log(response)
-
-                const endTime = performance.now(); // Memorizza il tempo di fine della risposta
-                const responseTime = endTime - startTime; // Calcola il tempo di risposta
-
-                // Aggiorna il messaggio in base alla risposta del server
-                if (response.status) {
-                    // Se consentito, visualizza "Entraaa" e il tempo di risposta
-                    const updatedMessage = `${response.message} - Tempo di risposta: ${responseTime.toFixed(2)} ms`;
-                    messageContainer.innerHTML = `<p>${updatedMessage}</p>`;
-
-                    // Se è previsto un redirect, mostra un conto alla rovescia
-                    if (response.redirect) {
-                        let countdown = 2; // Tempo di attesa in secondi
-                        const countdownInterval = setInterval(() => {
-                            messageContainer.innerHTML = `<p>${updatedMessage}</p><p>Redirect tra ${countdown} secondi...</p>`;
-                            countdown -= 1;
-
-                            if (countdown < 0) {
-                                clearInterval(countdownInterval);
-                                // Fai il redirect alla nuova destinazione
-                                // window.location.href = data.redirect;
-                            }
-                        }, 1000);
-                    }
-                } else {
-                    // Se non consentito, visualizza "Non puoi entrare"
-                    messageContainer.innerHTML = `<p>${response.message}</p>`;
-                }
-            }
-        }).catch(error => {
-            console.error('Errore durante la richiesta AJAX:', error);
-
-            // Aggiorna il messaggio in caso di errore
-            messageContainer.innerHTML = '<p>Errore durante la richiesta AJAX</p>';
-        });
-    })
-</script>
 
 <div id="message-container"></div>
